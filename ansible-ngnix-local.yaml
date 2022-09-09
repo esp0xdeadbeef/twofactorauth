@@ -4,25 +4,25 @@
   tasks:
     - name: Synchronization of the targets files.
       ansible.posix.synchronize:
-        src: ./
-        dest: ~/target
+        src: ./.git/
+        dest: /opt/twofactorauth
         delete: false
         owner: false
         group: false
     - name: Doing a hardreset on the twofactorauth .git files so git will download the files and my changes will be kept.
       ansible.builtin.shell: sh -c "git reset --hard origin/master && git fetch --all"
       args:
-        chdir: ~/target/login/twofactorauth
+        chdir: /opt/twofactorauth
       register: output
       changed_when: output.rc == 0
     - name: Stopping the target service (docker-compose down).
       community.docker.docker_compose:
-        project_src: ~/target
+        project_src: /opt/twofactorauth
         state: absent
     - name: Create and start services
       community.docker.docker_compose:
         build: true
-        project_src: ~/target
+        project_src: /opt/twofactorauth
         state: present
       register: output
     - name: Get the output of staring the service
