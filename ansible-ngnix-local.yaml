@@ -1,21 +1,16 @@
-- name: Updating/initialization the 2fa server and client of the target.
-  hosts: target
+- name: Updating/initialization the 2fa server and client.
+  hosts: webhost
   remote_user: root
   tasks:
-    - name: Synchronization of the targets files.
+    - name: Synchronization of the webhost files.
       ansible.posix.synchronize:
-        src: ./.git/
-        dest: /opt/twofactorauth
-        delete: false
+        src: .
+        dest: /opt
+        delete: true
         owner: false
         group: false
-    - name: Doing a hardreset on the twofactorauth .git files so git will download the files and my changes will be kept.
-      ansible.builtin.shell: sh -c "git reset --hard origin/master && git fetch --all"
-      args:
-        chdir: /opt/twofactorauth
-      register: output
-      changed_when: output.rc == 0
-    - name: Stopping the target service (docker-compose down).
+        recursive: true
+    - name: Stopping the webhost service (docker-compose down).
       community.docker.docker_compose:
         project_src: /opt/twofactorauth
         state: absent

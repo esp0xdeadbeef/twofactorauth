@@ -12,3 +12,4 @@ FROM nginx as production-stage
 COPY ./ngnix.conf /etc/nginx/nginx.conf
 RUN mkdir /app
 COPY --from=build-stage /app/dist /app
+EXPOSE 8080:8080
