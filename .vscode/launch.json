@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Server",
+        "program": "${workspaceFolder}/server/index.js"
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Client",
+        "program": "${workspaceFolder}/client/main.js"
+      }
+    ],
+    "compounds": [
+      {
+        "name": "Server/Client",
+        "configurations": ["Server", "Client"],
+        "preLaunchTask": "${defaultBuildTask}",
+        "stopAll": true
+      }
+    ]
+}
